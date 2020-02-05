@@ -1,0 +1,86 @@
+<div *ngIf="details">
+  <div *ngIf="showSuccessMessage">
+    <div *ngIf="viewName == 'add'">
+      <h3>Flask added successfully</h3>
+    </div>
+    <div *ngIf="viewName == 'edit'">
+      <h3>Flask updated successfully</h3>
+    </div>
+  </div>
+  <div class="flaskDetails" *ngIf="flask !=null">
+    <h2>{{flask.name | uppercase}} Details</h2>
+    <div><label>Name: <span>{{flask.name}}</span></label></div>
+    <div><label>Description: <span>{{flask.description}}</span></label></div>
+    <div><label>Capacity: <span>{{flask.capacity}}</span></label></div>
+    <div><label>Tea Cups Capacity: <span>{{flask.teaCupsCapacity}}</span></label></div>
+    <div><label>Quantity: <span>{{flask.quantity}}</span></label></div>
+  </div>
+</div>
+<div *ngIf="!details">
+  <div *ngIf="flask && flask.id">
+    <h2>Edit Flask</h2>
+  </div>
+  <div *ngIf="flask && !flask.id">
+    <h2>Add New Flask</h2>
+  </div>
+  <form [formGroup]="flaskForm" (ngSubmit)="onSubmit()">
+    <label> Name:
+      <input type="text" formControlName="name" id="name">
+    </label>
+    <div class="error" *ngIf="name.invalid && (name.dirty || name.touched)">
+      <div *ngIf="name.errors.required">
+        Required
+      </div>
+      <div *ngIf="name.errors.pattern">
+        Only Alphanumeric characters, whitespace,underscore, hyphen are allowed
+      </div>
+    </div>
+    <label> Description:
+      <input type="text" formControlName="description" id="description">
+    </label>
+    <div class="error" *ngIf="description.invalid && (description.dirty || description.touched)">
+      <div *ngIf="description.errors.required">
+        Required
+      </div>
+      <div *ngIf="description.errors.pattern">
+        Only Alphanumeric characters, whitespace,underscore, hyphen are allowed
+      </div>
+    </div>
+    <label> Capacity:
+      <input type="text" formControlName="capacity" id="capacity">
+    </label>
+    <div class="error" *ngIf="capacity.invalid && (capacity.dirty || capacity.touched)">
+      <div *ngIf="capacity.errors.required">
+        Required
+      </div>
+      <div *ngIf="capacity.errors.pattern">
+        Only numbers are allowed
+      </div>
+    </div>
+    <label> Tea Cups Capacity:
+      <input type="text" formControlName="teaCupsCapacity" id="teaCupsCapacity">
+    </label>
+    <div class="error" *ngIf="teaCupsCapacity.invalid && (teaCupsCapacity.dirty || teaCupsCapacity.touched)">
+      <div *ngIf="teaCupsCapacity.errors.required">
+        Required
+      </div>
+      <div *ngIf="teaCupsCapacity.errors.pattern">
+        Only numbers are allowed
+      </div>
+    </div>
+    <label> Quantity:
+      <input type="text" formControlName="quantity" id="quantity">
+    </label>
+    <div class="error" *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">
+      <div *ngIf="quantity.errors.required">
+        Required
+      </div>
+      <div *ngIf="quantity.errors.pattern">
+        Only numbers are allowed
+      </div>
+    </div>
+    <button type="submit" [disabled]="!flaskForm.valid">Submit</button>
+  </form>
+</div>
+<br/>
+<button (click)="goBack()">Go Back</button>

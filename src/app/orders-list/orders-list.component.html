@@ -1,0 +1,121 @@
+<h2>Orders</h2>
+
+<div class="orders1">
+  <div class="error" *ngIf="errorMsg">
+    {{errorMsg}}
+  </div>
+  <button class="button" (click)="addOrder()">
+    Add New Order</button>
+  <button class="button" (click)="showPendingOrders()" *ngIf="!isPendingOrders">
+    Get Pending Orders</button>
+  <button class="button" (click)="showOrders()" *ngIf="isPendingOrders">
+    Get All Orders</button>
+    <div class="form-group">
+      <label>Filter By Reseller:
+        <select id="resellerId" (change)="filterReseller($event)">
+          <option value="-1">Select Reseller</option>
+          <option *ngFor="let reseller of resellers"
+              [value]="reseller.id">{{reseller.name}}</option>
+        </select>
+      </label>
+    </div>
+  <br><br>
+  <div *ngIf="showDeleteSuccessMessage == 'true'">
+    <h3>Order deleted successfully</h3>
+  </div>
+  <div *ngIf="showDeliveredSuccessMessage == 'true'">
+    <h3>Order delivered successfully</h3>
+  </div>
+  <div *ngIf="!isPendingOrders && dataSource.data.length == 0">
+    <h3>There are no orders</h3>
+  </div>
+  <div *ngIf="isPendingOrders && dataSource.data.length == 0">
+    <h3>There are no pending orders</h3>
+  </div>
+  <!-- Normal table Implementation - Display of data-->
+  <!-- <ul>
+    <li *ngFor="let order of orders">
+      <a (click)="getOrderDetails(order)">
+        <span class="badge">{{order.id}}</span>
+      </a>
+      <button class="button" (click)="editOrder(order)">Edit</button>
+      <button class="button" title="delete"
+        (click)="deleteOrder(order)">Delete</button>
+    </li>
+  </ul> -->
+  <!-- Material Table Implementation -->
+  <mat-table class="mat-elevation-z8" [dataSource]="dataSource"
+    matSort matSortActive="id" matSortDirection="asc" (matSortChange)="sortData($event)">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+      <mat-cell *matCellDef="let order">
+        <button (click)="getOrderDetails(order)">{{order.id}}</button>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="reseller">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header>Reseller</mat-header-cell>
+      <mat-cell *matCellDef="let order">{{order.reseller.name}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="deliveryStaff">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header>Delivery Staff</mat-header-cell>
+      <mat-cell *matCellDef="let order">
+        <div *ngIf="order.deliveryStaff">{{ order.deliveryStaff.name }}</div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header>Status</mat-header-cell>
+      <mat-cell *matCellDef="let order">{{order.status}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="orderedTime">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Time Ordered</mat-header-cell>
+      <mat-cell *matCellDef="let order">{{order.orderTime | date: 'medium' }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="deliveredTime">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Time Delivered</mat-header-cell>
+      <mat-cell *matCellDef="let order">{{order.deliveredTime | date: 'medium' }}</mat-cell>
+    </ng-container>
+    <!-- Assign the deliveryStaff when the status is created -->
+    <ng-container matColumnDef="assign">
+      <mat-header-cell *matHeaderCellDef>Assign the Delivery Staff</mat-header-cell>
+      <mat-cell *matCellDef="let order">
+        <div *ngIf="order.status == 'CREATED'">
+          <button mat-icon-button (click)="redirectToAssign(order)">Assign</button>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <!-- Mark As Delivered when the status is ASSIGNED-->
+    <ng-container matColumnDef="deliver">
+      <mat-header-cell *matHeaderCellDef>Mark As Delivered</mat-header-cell>
+      <mat-cell *matCellDef="let order">
+        <div *ngIf="order.status == 'ASSIGNED'">
+          <button mat-icon-button (click)="markAsDelivered(order)">Mark</button>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <!-- Edit button when the status is not delivered -->
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef>Edit</mat-header-cell>
+      <mat-cell *matCellDef="let order">
+        <div *ngIf="order.status == 'CREATED'">
+          <button mat-icon-button (click)="editOrder(order)">Edit</button>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <!-- Delete button when the status is not delivered -->
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
+      <mat-cell *matCellDef="let order">
+        <!--<div *ngIf="order.status != 'DELIVERED'">
+          <button mat-icon-button (click)="deleteOrder(order)">Delete</button>
+        </div> -->
+        <button mat-icon-button (click)="deleteOrder(order)">Delete</button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
+  </mat-table>
+
+</div>
+<mat-paginator showFirstLastButtons ></mat-paginator>
+
+<button (click)="goBack()" class="button">Go Back</button>

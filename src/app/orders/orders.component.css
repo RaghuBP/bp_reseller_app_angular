@@ -1,0 +1,14 @@
+/* Order Details */
+.orderDetails label {
+  width: 30em;
+  margin: .5em 0;
+  color: #607D8B;
+  font-weight: bold;
+  float: none;
+  display: block;
+}
+.wrapper {
+  display: inline-flex;
+  padding: .3em 0;
+  align-items: center;
+}

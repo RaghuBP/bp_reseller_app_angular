@@ -1,0 +1,165 @@
+<div *ngIf="showDetails">
+  <div *ngIf="showSuccessMessage && (view == 'add')">
+    <h3>Deliery Staff added successfully</h3>
+  </div>
+  <div *ngIf="showSuccessMessage && (view == 'edit')">
+    <h3>Deliery Staff updated successfully</h3>
+  </div>
+  <div class="deliveryStaffDetails" *ngIf="deliveryStaff">
+    <h2>{{deliveryStaff.name | uppercase}} Details</h2>
+    <div><label>Name: <span>{{deliveryStaff.name}} </span></label></div>
+    <div>
+      <div><label>BuildingNumber:  <span>{{deliveryStaff.address.buildingNumber}} </span></label></div>
+      <div><label>AddressLine1: <span>{{deliveryStaff.address.addressLine1}} </span></label></div>
+      <div><label>AddressLine2: <span>{{deliveryStaff.address.addressLine2}} </span></label></div>
+      <div><label>City: <span>{{deliveryStaff.address.city}} </span></label></div>
+      <div><label>State: <span>{{deliveryStaff.address.state}} </span></label></div>
+      <div><label>ZipCode: <span>{{deliveryStaff.address.zipCode}} </span></label></div>
+    </div>
+    <div>
+      <div><label>PrimaryNumber: <span>{{deliveryStaff.contactDetails.primaryNumber}} </span></label></div>
+      <div><label>SecondaryNumber: <span>{{deliveryStaff.contactDetails.secondaryNumber}} </span></label></div>
+      <div><label>EmailAddress: <span>{{deliveryStaff.contactDetails.emailAddress}} </span></label></div>
+    </div>
+    <div><label>StartDate: <span>{{deliveryStaff.startDate}} </span></label></div>
+    <div><label>EndDate: <span>{{deliveryStaff.endDate}} </span></label></div>
+  </div>
+</div>
+<div *ngIf="!showDetails">
+  <div *ngIf="deliveryStaff && deliveryStaff.id" >
+    <h2>Edit Delivery Staff</h2>
+  </div>
+  <div class="error" *ngIf="errorMsg">
+    {{errorMsg}}
+  </div>
+  <div *ngIf="deliveryStaff && !deliveryStaff.id">
+    <h2>Add New Delivery Staff</h2>
+  </div>
+  <form [formGroup]="deliveryStaffForm" (ngSubmit)="onSubmit()">
+    <label> Name:
+      <input type="text" formControlName="name" id="name">
+    </label>
+    <div class="error" *ngIf="name.invalid && (name.dirty || name.touched)">
+      <div *ngIf="name.errors.required">
+        Required
+      </div>
+      <div *ngIf="name.errors.pattern">
+        Only Alphanumeric characters, whitespace,underscore, hyphen are allowed
+      </div>
+    </div>
+    <div formGroupName="address">
+      <h3>Address</h3>
+        <label> Address Line1:
+          <input type="text" formControlName="addressLine1">
+        </label>
+        <div class="error" *ngIf="line1.invalid && (line1.dirty || line1.touched)">
+          <div *ngIf="line1.errors.required">
+             Required
+          </div>
+          <div *ngIf="line1.errors.pattern">
+            Only Alphanumeric characters, whitespace,underscore, hyphen are allowed
+          </div>
+        </div>
+        <label> Address Line2:
+          <input type="text" formControlName="addressLine2">
+        </label>
+        <div class="error" *ngIf="line2.invalid && (line2.dirty || line2.touched)">
+          <div *ngIf="line2.errors.required">
+             Required
+          </div>
+          <div *ngIf="line2.errors.pattern">
+            Only Alphanumeric characters, whitespace,underscore, hyphen are allowed
+          </div>
+        </div>
+        <label> Building Number:
+          <input type="text" formControlName="buildingNumber">
+        </label>
+        <div class="error" *ngIf="buildingNumber.invalid && (buildingNumber.dirty || buildingNumber.touched)">
+          <div *ngIf="buildingNumber.errors.required">
+             Required
+          </div>
+          <div *ngIf="buildingNumber.errors.pattern">
+            Only Alphanumeric characters, whitespace,underscore, hyphen are allowed
+          </div>
+        </div>
+        <label> City:
+          <input type="text" formControlName="city">
+        </label>
+        <div class="error" *ngIf="city.invalid && (city.dirty || city.touched)">
+          <div *ngIf="city.errors.required">
+             Required
+          </div>
+          <div *ngIf="city.errors.pattern">
+            Only Alphanumeric characters, whitespace,underscore, hyphen are allowed
+          </div>
+        </div>
+        <label> State:
+          <input type="text" formControlName="state">
+        </label>
+        <div class="error" *ngIf="state.invalid && (state.dirty || state.touched)">
+          <div *ngIf="state.errors.required">
+             Required
+          </div>
+          <div *ngIf="state.errors.pattern">
+            Only Alphanumeric characters, whitespace,underscore, hyphen are allowed
+          </div>
+        </div>
+        <label> Zipcode:
+          <input type="text" formControlName="zipCode">
+        </label>
+        <div class="error" *ngIf="zipCode.invalid && (zipCode.dirty || zipCode.touched)">
+          <div *ngIf="zipCode.errors.required">
+             Required
+          </div>
+          <div *ngIf="zipCode.errors.pattern">
+            Only Digits are allowed
+          </div>
+        </div>
+    </div>
+    <div formGroupName="contactDetails">
+      <h3>Contact Details</h3>
+        <label> Email Address:
+          <input type="text" formControlName="emailAddress">
+         </label>
+         <div class="error" *ngIf="email.invalid && (email.dirty || email.touched)">
+           <div *ngIf="email.errors.required">
+              Required
+           </div>
+           <div *ngIf="email.errors.email">
+             Must be a valid email address
+           </div>
+         </div>
+        <label> Primary Number:
+          <input type="text" formControlName="primaryNumber" id="primary">
+        </label>
+        <div class="error" *ngIf="primary.invalid && (primary.dirty || primary.touched)">
+          <div *ngIf="primary.errors.required">
+             Required
+          </div>
+          <div *ngIf="primary.errors.pattern">
+            Must be a valid phone number
+          </div>
+        </div>
+        <label> Secondary Number:
+          <input type="text" formControlName="secondaryNumber">
+        </label>
+        <div class="error" *ngIf="secondary.invalid && (secondary.dirty || secondary.touched)">
+          <div *ngIf="secondary.errors.required">
+             Required
+          </div>
+          <div *ngIf="secondary.errors.pattern">
+            Must be a valid phone number
+          </div>
+        </div>
+    </div>
+    <label> Start Date:
+      <input type="text" formControlName="startDate">
+    </label>
+    <label> End Date:
+      <input type="text" formControlName="endDate">
+    </label>
+    <button type="submit" class="button" [disabled]="!deliveryStaffForm.valid">Submit</button>
+  </form>
+</div>
+<br/>
+<button (click)="goBack()">Go Back</button>

@@ -1,0 +1,104 @@
+<div *ngIf="details || isAssignDeliveryStaffView" class="orderDetails">
+  <div class="error" *ngIf="errorMsg">
+    {{errorMsg}}
+  </div>
+  <div *ngIf="showSuccessMessage && (view == 'add')">
+    <h3>Order added successfully</h3>
+  </div>
+  <div *ngIf="showSuccessMessage && (view == 'edit')">
+    <h3>Order updated successfully</h3>
+  </div>
+    <h2>Order Details</h2>
+    <div *ngIf="order.reseller">
+      <label>Reseller: <span>{{order.reseller.name}}</span></label>
+    </div>
+    <div *ngIf="order.deliveryStaff">
+      <label>Delivery Staff : <span> {{order.deliveryStaff.name}} </span></label>
+    </div>
+    <div *ngIf="order.orderTime">
+      <label>Ordered Time:<span> {{order.orderTime | date: 'medium' }}</span></label>
+    </div>
+    <div *ngIf="order.deliveredTime">
+      <label>Delivered Time:<span> {{order.deliveredTime | date: 'medium' }}</span></label>
+    </div>
+    <div><label>Status:<span> {{order.status}}</span></label></div>
+    <div><label>Items:
+      <span>
+        <ul>
+          <li *ngFor="let order of order.items">
+            {{order.flaskName}}
+          </li>
+        </ul>
+      </span>
+      </label>
+    </div>
+    <!-- Assign the delivery Staffs -->
+    <div *ngIf="isAssignDeliveryStaffView">
+      <form [formGroup]="orderForm" (ngSubmit)="updateDeliveryStaff()">
+        <div class="form-group">
+          <label>Select Delivery Staff:
+            <select formControlName="deliveryStaff" id="deliveryStaff">
+              <option *ngFor="let deliveryStaff of deliveryStaffs"
+                  [value]="deliveryStaff.id">{{deliveryStaff.name}}</option>
+            </select>
+          </label>
+        </div>
+        <div class="lineDivider"></div>
+        <button type="submit" [disabled]="!orderForm.valid">Update</button>
+      </form>
+    </div>
+    <div *ngIf="!order.deliveryStaff && !isAssignDeliveryStaffView">
+      <button type="button" (click)="assignDeliveryStaff()">Assign the Delivery Staff</button>
+    </div>
+    <div *ngIf="order.deliveryStaff && !order.deliveredTime">
+        <div class="lineDivider"></div>
+        <button type="button" (click)="markAsDelivered()">Mark As Delivered</button>
+    </div>
+
+</div>
+
+<div *ngIf="!details && !isAssignDeliveryStaffView" >
+  <div *ngIf="order && order.id">
+    <h2>Edit Order</h2>
+  </div>
+  <div *ngIf="order && !order.id">
+    <h2>Add New Order</h2>
+  </div>
+  <div class="error" *ngIf="errorMsg">
+    {{errorMsg}}
+  </div>
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Select Reseller:
+        <select formControlName="reseller" id="reseller">
+          <option *ngFor="let reseller of resellers"
+              [value]="reseller.id">{{reseller.name}}</option>
+        </select>
+      </label>
+    </div>
+    <div formArrayName="items"
+        *ngFor="let item of items.controls; let i=index;" class="form-group">
+        <div class="wrapper">
+          <label>Select Item:
+            <select formControlName="{{i}}" id="flask" [required]>
+                <option *ngFor="let flask of flasks"
+                    [value]="flask.id">{{flask.name}}</option>
+            </select>
+          </label>
+          <div *ngIf="i > 0">
+            <button type="button" (click)="removeItem(i)">
+              Remove Item</button>
+          </div>
+          <div class="divider" ></div>
+          <!-- Shows 'Add Another Item' button at the end-->
+          <div *ngIf="i == (items.length - 1)">
+            <button type="button" (click)="addItem()">
+              Add Another Item</button>
+          </div>
+      </div>
+    </div>
+    <button type="submit" [disabled]="!orderForm.valid">Submit</button>
+  </form>
+</div>
+<div class="lineDivider"></div>
+<button (click)="goBack()" class="button">Go Back</button>

@@ -1,0 +1,40 @@
+<h2>Flasks</h2>
+
+<div class="flasks1">
+  <div *ngIf="showDeleteSuccessMessage">
+    <h3>Flask deleted successfully</h3>
+  </div>
+  <button class="button" (click)="addFlask()">
+    Add New Flask</button>
+  <br><br>
+
+  <mat-table class="mat-elevation-z8" [dataSource]="dataSource"
+    matSort matSortActive="name" matSortDirection="asc">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let flask">
+        <button (click)="getFlaskDetails(flask)">{{flask.name}}</button>
+      </mat-cell>
+    </ng-container>
+    <!-- Edit button -->
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef>Edit</mat-header-cell>
+      <mat-cell *matCellDef="let flask">
+        <button mat-icon-button (click)="editFlask(flask)">Edit</button>
+      </mat-cell>
+    </ng-container>
+    <!-- Delete button -->
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
+      <mat-cell *matCellDef="let flask">
+        <button mat-icon-button (click)="deleteFlask(flask)">Delete</button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
+  </mat-table>
+
+</div>
+<mat-paginator showFirstLastButtons ></mat-paginator>
+
+<button (click)="goBack()">Go Back</button>

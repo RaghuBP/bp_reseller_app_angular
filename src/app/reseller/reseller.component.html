@@ -1,0 +1,40 @@
+
+<h2>
+  Resellers
+</h2>
+<div class="resellers1">
+  <div *ngIf="showDeleteSuccessMessage">
+    <h3>Reseller deleted successfully</h3>
+  </div>
+  <a (click)="addNewReseller()">
+      <span class="badge">Add New Reseller</span>
+  </a>
+  <br><br>
+  <mat-table class="mat-elevation-z8" [dataSource]="dataSource"
+    matSort matSortActive="name" matSortDirection="asc">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let reseller">
+        <button (click)="getResellerDetails(reseller)">{{reseller.name}}</button>
+      </mat-cell>
+    </ng-container>
+    <!-- Edit button -->
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef>Edit</mat-header-cell>
+      <mat-cell *matCellDef="let reseller">
+        <button mat-icon-button (click)="editReseller(reseller)">Edit</button>
+      </mat-cell>
+    </ng-container>
+    <!-- Edit button -->
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
+      <mat-cell *matCellDef="let reseller">
+        <button mat-icon-button (click)="deleteReseller(reseller)">Delete</button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
+  </mat-table>
+</div>
+<mat-paginator showFirstLastButtons ></mat-paginator>
+<button class="button" (click)="goBack()">Go Back</button>

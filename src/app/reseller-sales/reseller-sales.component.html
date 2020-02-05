@@ -1,0 +1,72 @@
+<h2>Reseller Sales</h2>
+<div class="resellerSales">
+  <button class="button" (click)="addSales()">Add Sales</button>
+
+  <button class="button" (click)="viewSummary()" *ngIf="!dashboardView">Get Sales Summary</button>
+  <button class="button" (click)="viewSales()" *ngIf="!salesView">Get Reseller Sales</button>
+
+<br><br>
+<div class="addSales" *ngIf="addSalesView">
+  <h4>Add Sales</h4>
+  <form [formGroup]="resellerSalesForm" (ngSubmit)="onSubmit()">
+    <label>Select Reseller:
+        <select formControlName="reseller" id="reseller">
+          <option *ngFor="let reseller of resellers"
+              [value]="reseller.id">{{reseller.name}}</option>
+        </select>
+    </label>
+    <label> Capacity:
+      <input type="text" formControlName="quantity" id="quantity">
+    </label>
+      <button type="submit" [disabled]="!resellerSalesForm.valid">Submit</button>
+      <button type="reset" (click)="cancelForm()"> Cancel</button>
+
+  </form>
+</div>
+<div class="viewDashboard" *ngIf="dashboardView">
+  <h3>View Sales Dashboard</h3>
+
+  <mat-table [dataSource]="resellerSalesDashboard" class="mat-elevation-z8">
+    <ng-container matColumnDef="reseller">
+      <mat-header-cell *matHeaderCellDef>Reseller</mat-header-cell>
+      <mat-cell *matCellDef="let resellerSaleSummary">{{resellerSaleSummary.resellerId}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="flaskCapacity">
+      <mat-header-cell *matHeaderCellDef>Flask Capacity</mat-header-cell>
+      <mat-cell *matCellDef="let resellerSaleSummary">{{resellerSaleSummary.flaskCapacity}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="leftTeaStock">
+      <mat-header-cell *matHeaderCellDef>Left Tea Stock</mat-header-cell>
+      <mat-cell *matCellDef="let resellerSaleSummary">{{resellerSaleSummary.leftTeaStock}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="teaSold">
+      <mat-header-cell *matHeaderCellDef>Tea Sold</mat-header-cell>
+      <mat-cell *matCellDef="let resellerSaleSummary">{{resellerSaleSummary.teaSold}}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="dashboardTableColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: dashboardTableColumns"></mat-row>
+  </mat-table>
+</div>
+<div class="viewSales" *ngIf="salesView">
+  <h3>View Sales</h3>
+  <mat-table [dataSource]="dataSource" class = "mat-elevation-z8">
+    <ng-container matColumnDef="reseller">
+      <mat-header-cell *matHeaderCellDef>Reseller</mat-header-cell>
+      <mat-cell *matCellDef="let resellerSale">{{resellerSale.reseller.name}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="quantity">
+      <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+      <mat-cell *matCellDef="let resellerSale">{{resellerSale.quantity}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="timeSold">
+      <mat-header-cell *matHeaderCellDef>Time Sold</mat-header-cell>
+      <mat-cell *matCellDef="let resellerSale">{{resellerSale.soldTime | date: 'mediumDate'}}</mat-cell>
+    </ng-container>
+      <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
+  </mat-table>
+
+</div>
+<mat-paginator showFirstLastButtons [ngStyle]="{display: salesView ? 'block' : 'none'}"></mat-paginator>
+<br>
+<button class="button" (click)="goBack()">Go Back</button>
