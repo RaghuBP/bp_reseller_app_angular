@@ -8,6 +8,14 @@ Pending items:
 Logging framework
 Supoort for mobile devices
 
+Technologies Used:
+Angular 7.3
+npm 6.4.1
+
+Tools
+Atom IDE.. you can use other IDEs like VS also
+Angular CLI
+
 To run this project locally:
 1. Install NodeJS and NPM from https://nodejs.org/en/download/.
 2. Install Angular CLI by running npm install -g @angular/cli.
