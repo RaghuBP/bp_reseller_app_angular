@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  urlAddress: 'http://localhost:8080'
+  urlAddress: 'http://localhost:8080',
+  contextPath: 'bp-rest-0.0.1-SNAPSHOT'
 };
 
 /*

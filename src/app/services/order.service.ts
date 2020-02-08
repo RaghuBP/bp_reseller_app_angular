@@ -16,7 +16,7 @@ const httpOptions = {
 })
 export class OrderService {
   private order: Order;
-  private ordersUrl = environment.urlAddress + '/bp/orders';
+  private ordersUrl = environment.urlAddress + '/' + environment.contextPath + '/orders';
 
   constructor(private http : HttpClient) { }
 

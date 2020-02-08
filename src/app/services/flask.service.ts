@@ -15,7 +15,7 @@ const httpOptions = {
 })
 export class FlaskService {
 
-  private flasksUrl = environment.urlAddress + '/bp/flasks';
+  private flasksUrl = environment.urlAddress + '/' + environment.contextPath + '/flasks';
   private flask: Flask;
 
   constructor(private http : HttpClient) { }

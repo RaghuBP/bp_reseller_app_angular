@@ -15,7 +15,7 @@ const httpOptions = {
 })
 export class DeliverystaffService {
 
-  private deliveryStaffsUrl = environment.urlAddress + '/bp/deliveryStaffs';
+  private deliveryStaffsUrl = environment.urlAddress + '/' + environment.contextPath + '/deliveryStaffs';
   private deliveryStaff: User;
 
   constructor(private http: HttpClient) { }

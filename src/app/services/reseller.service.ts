@@ -15,7 +15,7 @@ const httpOptions = {
 })
 export class ResellerService {
 
-  private resellersUrl: string = environment.urlAddress + '/bp/resellers';
+  private resellersUrl: string = environment.urlAddress + '/' + environment.contextPath + '/resellers';
   private reseller: User;
 
   constructor(

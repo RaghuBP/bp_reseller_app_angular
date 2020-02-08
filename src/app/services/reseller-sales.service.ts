@@ -19,7 +19,7 @@ const httpOptions = {
 })
 export class ResellerSalesService {
 
-  private resellerSalesUrl = environment.urlAddress + '/bp/resellerSales';
+  private resellerSalesUrl = environment.urlAddress + '/' + environment.contextPath + '/resellerSales';
 
   constructor(private http : HttpClient) { }
 
