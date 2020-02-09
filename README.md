@@ -21,6 +21,7 @@ To run this project locally:
 2. Install Angular CLI by running npm install -g @angular/cli.
 3. Download the project source code.
 4. Install all required npm packages by running npm install from the command line in the project root folder (where the package.json is located).
+npm install @angular-devkit/build-angular@0.13.8
 5. Start the application by running ng serve --open from the command line in the project root folder.
 6. Your browser should automatically open at http://localhost:4200 with the demo Angular 7 login page displayed.
 
